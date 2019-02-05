@@ -55,7 +55,9 @@ def handle(msg):
         except:
             bd = {"chat_id" : chat_id, n : {"giorno" : d, "mese" : m, "nome" : N}}
             pickle.dump(bd, open(str(chat_id) + ".dates", "wb"))
-            database.append(chat_id + ".dates")
+            db = pickle.load(open("database.db", "rb"))
+            database = db["db"]
+            database.append(str(chat_id) + ".dates")
             db = {"db": database}
             pickle.dump(db, open("database.db", "wb"))
     elif msg["TRUE"] == True:
@@ -77,6 +79,8 @@ def handle(msg):
                 print(bd)
                 keys = bd.keys()
                 values = bd.values()
+                keys = list(keys)
+                values = list(values)
                 print(keys)
                 print(values)
                 z = 0
@@ -89,6 +93,7 @@ def handle(msg):
                         c = keys[z]
                         print(c)
                         values2 = bd[c].values()
+                        values2 = list(values2)
                         print(values2)
                         m = values2[1]
                         print(m)
@@ -100,8 +105,11 @@ def handle(msg):
                         cd = now[2]
                         print(cd)
                         if m == cm and cd == d:
-                            print("confronto riuscito")
-                            bot.sendMessage(bd["chat_id"], "Buon Compleanno " + N +"!")
+                            if bd["chat_id"] == "INSERT HERE YOUR CHAT ID":
+                                print("salto test")
+                            else:
+                                print("confronto riuscito")
+                                bot.sendMessage(bd["chat_id"], "Buon Compleanno " + values2[2] +"!")
                     z += 1
                 x+=1
 bot = telepot.Bot('644563887:AAH0ZxPXxtIMkJoNOLj-SOoLjLFbXLfit-s')
